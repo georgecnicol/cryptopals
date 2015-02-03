@@ -1,4 +1,7 @@
 #! /usr/bin/python3.4
+# George Nicol
+# February 2, 2015
+
 
 # read from a file converting all characters within the file from hex (treats them as hex)
 # to base64.

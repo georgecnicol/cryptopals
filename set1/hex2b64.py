@@ -1,12 +1,9 @@
 #! /usr/bin/python3.4
+# George Nicol
+# February 2, 2015
 
 # read from a file converting all characters within the file from hex (treats them as hex)
-# to base64.
-
-
-# assumes file consists entirely of hex [0-9A-Fa-f]
-# decode the given string from hex to ascii
-# encode the decoded string to base64
+# to base64, assumes file consists entirely of hex [0-9A-Fa-f]
 
 import sys
 
