@@ -9,7 +9,6 @@
 # encode the decoded string to base64
 
 import sys
-# import base64           # for alternate version
 
 
 # ensure file provided
@@ -18,11 +17,6 @@ if argc != 2:
     exit (1)
 
 
-# now that we have the unpacked 2 digit (0-63) representation, we can decode via array.
-def changeToBase64(incoming):
-    alpahbet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-    translatedChar=alpahbet[incoming]
-    return translatedChar
 
 # pack portions of the raw data into 12 bit chunks
 # 3 digits x 4 bits/digit = 12 bits
@@ -34,16 +28,25 @@ def convertString(incoming):
     hexTriplet = hexTriplet >> 4        # one shift too many in loop
     return hexTriplet
 
+
 # of the 12 bits, take 6 (lsb portion) of it and make a value
 def makeBase64Lower(incomingHex):
     maskLower=0x03F
     lowerVal=incomingHex & maskLower
     return lowerVal
 
+
 # of the 12 bits, take 6 (msb portion) of it and make a value
 def makeBase64Upper(incomingHex):
     upperVal = incomingHex >> 6
     return upperVal
+
+
+# now that we have the unpacked 2 digit (0-63) representation, we can decode via array.
+def changeToBase64(incoming):
+    alpahbet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+    translatedChar=alpahbet[incoming]
+    return translatedChar
 
 
 try:
@@ -59,7 +62,9 @@ try:
         val = line.upper()
         rawData += val[0:-1]
 
-    # repackage it as base64
+    # repackage it as base64, note that we cycle through
+    # the input by groups of three. Any remainders are handled
+    # further down.
     for char in rawData:
         count+=1
         modVal=count%3
@@ -71,10 +76,20 @@ try:
             temp=''
 
     # account for not a multiple of three
+    # Only translate the top portion beacuse there
+    # weren't enough characters to make a bottom
+    # portion. Need to add an = sign
+    # even though we add 00 that is merely for the
+    # purpose of sizing the input - we truncate
+    # the excess by not including a bottom.
     if(modVal==1):
         temp+="00"
         hexValue=convertString(temp)
         base64List.append(makeBase64Upper(hexValue))
+
+    # there were enough to make a bottom, but there
+    # are extra zeros, which will be accounted for
+    # with the == signs
     if(modVal==2):
         temp+="0"
         hexValue=convertString(temp)
@@ -86,6 +101,9 @@ try:
     for num in base64List:
         finalString+=changeToBase64(num)
 
+    # format according to specifications indicating how
+    # many additional zeroes are on the end of the base64
+    # string. This flag indicates for going the other direction
     if(modVal==1):
         finalString+="="
     if(modVal==2):
