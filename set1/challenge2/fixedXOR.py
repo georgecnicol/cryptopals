@@ -1,11 +1,11 @@
 #!/usr/bin/python3.4
 # George Nicol
 # cryptopals: set 1 challenge 2
-# Feb 5, 2012
+# Feb 5, 2015
 # sure there is an easier way, but the challenge said work
 # with raw bytes.
 
-import sys
+import sys, string
 import argparse
 
 
@@ -30,13 +30,11 @@ answer=''       # xor results made into a string
 
 # grab contents of file and slice off \n
 for line in open(args.path[0]):
-    xorA=line
-    xorA=xorA[0:-1]
+    xorA+=line.strip(string.whitespace)
 
 # grab contents of file and slice off \n
 for line in open(args.path[1]):
-    xorB=line
-    xorB=xorB[0:-1]
+    xorB+=line.strip(string.whitespace)
 
 # must be same length to XOR for this version
 # could do something different with zip()
@@ -46,6 +44,7 @@ if len(xorA) != len(xorB):
 
 # resulting list of xor
 for position in range(len(xorA)):
+    #xor the things position by position, cast as hex, and slice off the leading hex text, append the results
     answer+=(hex(int(xorA[position], 16) ^ int(xorB[position], 16)))[2:] # .upper() if you want
 
 
