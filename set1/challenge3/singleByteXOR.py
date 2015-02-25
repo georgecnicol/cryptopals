@@ -15,7 +15,7 @@
 # 5) upon accept output file generated called "results" and Xor value displayed.
 
 
-import sys
+import sys, string
 import argparse
 
 # ---------------------------------------------------------------------
@@ -39,12 +39,12 @@ def satisfied(decodedAnswer):
 # ---------------------------------------------------------------------
 # finds the most common element in the file which is then matched to a letter
 def findMostCommon(incomingText):
-    incomingText=incomingText[0:-1]                 # always that pesky \n
+    incomingText=incomingText.strip(string.whitespace)  # always that pesky \n
     mySetOfValues={}
     asciiVal=''
     # grab 2 numbers and convert to hex
-    for i in range(0,len(incomingText),2):          # take a byte at a time
-        asciiVal=int(incomingText[i:i+2], 16)       # take a byte at a time
+    for i in range(0,len(incomingText),2):              # take a byte at a time
+        asciiVal=int(incomingText[i:i+2], 16)           # take a byte at a time
         mySetOfValues[asciiVal] = mySetOfValues.get(asciiVal, 0) + 1 # get the key and value in the dictionary
         asciiVal=''
     return(max(mySetOfValues, key=mySetOfValues.get))   # return the key with the biggest value - it has occured the most!
@@ -65,7 +65,7 @@ def findXorValue(mostCommonLetter, passedInLetter):
 def decodeFile(xorValue, path):
     decodedString=''
     for line in open(path):
-        line=line[0:-1]                                                 # always that pesky \n
+        line=line.strip(string.whitespace)                              # always that pesky \n
         for i in range(0,len(line),2):                                  # go by twos because that's a byte
             decodedString+=(chr((int(line[i:i+2], 16)) ^ xorValue))     # cast it right, I miss C right about now
     return decodedString
