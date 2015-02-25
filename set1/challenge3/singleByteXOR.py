@@ -14,8 +14,6 @@
 # 4) if not accepted repeat steps 2 and 3 with E t T a A o O i I n N
 # 5) upon accept output file generated called "results" and Xor value displayed.
 
-# I assumed that this meant that xor was across a byte, maybe that isnt the case?
-
 
 import sys
 import argparse
