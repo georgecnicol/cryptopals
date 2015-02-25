@@ -6,7 +6,7 @@
 # to base64, assumes file consists entirely of hex [0-9A-Fa-f]
 
 import sys
-
+import string
 
 # ensure file provided
 argc=len(sys.argv)
@@ -56,8 +56,7 @@ try:
 
     # get the raw data and throw out that trailing \n
     for line in open(sys.argv[1]):
-        val = line.upper()
-        rawData += val[0:-1]
+        rawData += line.upper().strip(string.whitespace)
 
     # repackage it as base64, note that we cycle through
     # the input by groups of three. Any remainders are handled
