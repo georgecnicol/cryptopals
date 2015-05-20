@@ -1,14 +1,13 @@
 #!/usr/bin/python
 # George Nicol
 # cryptopals: set 1 challenge
-# May 13, 2015
+# May 20, 2015
 #
 # Requires file and key as input, (en/de)codes file accordingly based on
 # cycling through provided key byte by byte.
 #
-# accepts an incoming file as an argument, file assumed to be text? straight hex?
-# if a file has multiple lines to decode/encode ... do we start each line with the
-# start of the key? Or do we continue from where we left off in the key?
+# wants ascii as input, willl encode to hex and then encrypt using key.
+# results -> stdout
 
 
 import binascii as binA
@@ -25,14 +24,6 @@ class BadArgs(Exception):
   def __str__(self):
     return repr(self.value)
 
-# ---------------------------------------------------------------------
-# decodes the line
-# xorValues should be a list of values to cycle through as provided by the key
-# start position is the position in the list where we pick up decoding encoding.
-# assuming that the file has multiple lines and that we don't just start each
-# line with the start of the key.
-# Additionally, note that CR are stripped.
-# recall the text file/ line has to have been converted to hex.
 
 
 # ---------------------------------------------------------------------
@@ -87,6 +78,7 @@ try:
   keyLength = len(args.key)
   textCount = 0
 
+  # the meat of it all
   for i in args.text:
     xorValue=int(args.key[textCount%keyLength],16)
     decodedString+=hex(int(i, 16) ^ xorValue)[2]     # cast it right, I miss C right about now
