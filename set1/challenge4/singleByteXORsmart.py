@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/local/bin/python3.4
 # George Nicol
 # cryptopals: set 1 challenge 4
 # March 26, 2015
@@ -123,7 +123,7 @@ try:
                     #outFile.write(resultString)
 
         inFile.close()
-    outFile.close()
+    #outFile.close()
 
 
 

@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/local/bin/python3.4
 # George Nicol
 # cryptopals: set 1 challenge 3
 # Feb 24, 2015

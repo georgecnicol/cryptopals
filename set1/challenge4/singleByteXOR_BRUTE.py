@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4
+#!/usr/local/bin/python3.4
 # George Nicol
 # cryptopals: set 1 challenge 4
 # March 26, 2015
@@ -53,7 +53,7 @@ grepValue3=re.compile("that")
 resultString=''
 
 try:
-    #outFile = open("results.txt",'w')
+    outFile = open("results.txt",'w')
     # brute force with the list from above
     for xorValue in range (0x00,0xff):
         inFile = open(args.path[0], 'r')
